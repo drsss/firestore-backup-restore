@@ -61,8 +61,25 @@ exports.backup = (collectionName, subCollections = []) => {
             .catch(error => {
             console.log(error);
         });
-        results.then(dt => {
-            console.log('dt ', dt);
+        results.then((dt) => {
+            for (let [key, value] of Object.entries([dt[0]])) {
+                if (data[collectionName][key]['subCollections'] == null) {
+                    data[collectionName][key]['subCollections'] = {};
+                }
+            }
+            for (var key in dt) {
+                // skip loop if the property is from prototype
+                if (!dt.hasOwnProperty(key))
+                    continue;
+                var obj = dt[key];
+                for (var prop in obj) {
+                    // skip loop if the property is from prototype
+                    if (!obj.hasOwnProperty(prop))
+                        continue;
+                    // your code
+                    console.log(prop + " = " + obj[prop]);
+                }
+            }
             if (typeof subCollections === 'string')
                 subCollections = [subCollections];
             if (subCollections.length === 0) {
