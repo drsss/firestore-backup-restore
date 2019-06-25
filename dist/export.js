@@ -62,6 +62,7 @@ exports.backup = (collectionName, subCollections = []) => {
             console.log(error);
         });
         results.then(dt => {
+            console.log('dt ', dt);
             if (typeof subCollections === 'string')
                 subCollections = [subCollections];
             if (subCollections.length === 0) {

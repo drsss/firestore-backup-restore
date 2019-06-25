@@ -59,6 +59,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
             })
 
         results.then(dt => {
+            console.log('dt ', dt)
             if (typeof subCollections === 'string') subCollections = [subCollections];
             if (subCollections.length === 0) {
                 resolve(dt);
