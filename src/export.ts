@@ -59,12 +59,6 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
             })
 
         results.then((dt:any) => {
-            for (let [key, value] of Object.entries([dt[0]])) {
-                if (data[collectionName][key]['subCollections'] == null) {
-                    data[collectionName][key]['subCollections'] = {};
-                }
-             
-            }
             for (var key in dt) {
                 // skip loop if the property is from prototype
                 if (!dt.hasOwnProperty(key)) continue;
