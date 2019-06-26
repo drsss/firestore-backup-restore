@@ -62,6 +62,7 @@ exports.backup = (collectionName, subCollections = []) => {
             console.log(error);
         });
         results.then((dt) => {
+            console.log('dt ', dt);
             for (var key in dt) {
                 // skip loop if the property is from prototype
                 if (!dt.hasOwnProperty(key))
