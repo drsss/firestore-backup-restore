@@ -141,6 +141,7 @@ const addSubCollection = (db, key, subData, collectionName, subCollection) => {
         db.collection(collectionName).doc(key).collection(subCollection).get()
             .then(snapshot => {
                 snapshot.forEach(subDoc => {
+                    console.log('sub collection data ', subDoc.data());
                     subData[subDoc.id] = subDoc.data();
                 })
                 resolve('Added data');
