@@ -79,11 +79,12 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                         }
                         //console.log('temp ', temp);
                         if (typeof subCollections === 'string') subCollections = [subCollections];
-                        if (subCollections.length === 0) {
+                        if (subCollections.length === 2000) {
                             resolve(dt);
                         } else {
                             let count = 0;
                             temp.forEach(subCollection => {
+                                console.log(' temp aray ', subCollection);
                                 getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                     count++;
                                     if (count === temp.length) {
