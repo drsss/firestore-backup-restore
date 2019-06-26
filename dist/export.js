@@ -73,14 +73,14 @@ exports.backup = (collectionName, subCollections = []) => {
                     if (!obj.hasOwnProperty(prop))
                         continue;
                     // your code
-                    console.log(prop + " = " + obj[prop]);
+                    // console.log(prop + " = " + obj[prop]);
                     db.doc(`agreement/${prop}`).getCollections().then((sdd) => __awaiter(this, void 0, void 0, function* () {
                         let temp = [];
                         for (const sd of sdd) {
                             temp.push(sd.id);
-                            console.log(`Found subcollection with id: ${sd.id}`);
+                            //console.log(`Found subcollection with id: ${sd.id}`);
                         }
-                        console.log('temp ', temp);
+                        //console.log('temp ', temp);
                         if (typeof subCollections === 'string')
                             subCollections = [subCollections];
                         if (subCollections.length === 0) {
@@ -119,6 +119,7 @@ exports.backup = (collectionName, subCollections = []) => {
  * @param {any} subCollection
  */
 const getSubCollection = (db, data, dt, collectionName, subCollection) => __awaiter(this, void 0, void 0, function* () {
+    console.log('getsubcollection');
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};

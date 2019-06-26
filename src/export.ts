@@ -70,14 +70,14 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                     if(!obj.hasOwnProperty(prop)) continue;
             
                     // your code
-                    console.log(prop + " = " + obj[prop]);
+                   // console.log(prop + " = " + obj[prop]);
                     db.doc(`agreement/${prop}`).getCollections().then(async sdd => {
                         let temp = [];
                         for (const sd of sdd) {
                            temp.push(sd.id);
-                           console.log(`Found subcollection with id: ${sd.id}`);
+                           //console.log(`Found subcollection with id: ${sd.id}`);
                         }
-                        console.log('temp ', temp);
+                        //console.log('temp ', temp);
                         if (typeof subCollections === 'string') subCollections = [subCollections];
                         if (subCollections.length === 0) {
                             resolve(dt);
@@ -117,6 +117,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
  * @param {any} subCollection 
  */
 const getSubCollection = async (db, data, dt, collectionName, subCollection) => {
+    console.log('getsubcollection')
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};
