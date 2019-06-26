@@ -81,27 +81,27 @@ exports.backup = (collectionName, subCollections = []) => {
                             console.log(`Found subcollection with id: ${sd.id}`);
                         }
                         console.log('temp ', temp);
+                        if (typeof subCollections === 'string')
+                            subCollections = [subCollections];
+                        if (subCollections.length === 0) {
+                            resolve(dt);
+                        }
+                        else {
+                            let count = 0;
+                            temp.forEach(subCollection => {
+                                getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
+                                    count++;
+                                    if (count === temp.length) {
+                                        resolve(data);
+                                    }
+                                }).catch(error => {
+                                    console.log(error);
+                                    reject(error);
+                                });
+                            });
+                        }
                     }));
                 }
-            }
-            if (typeof subCollections === 'string')
-                subCollections = [subCollections];
-            if (subCollections.length === 0) {
-                resolve(dt);
-            }
-            else {
-                let count = 0;
-                subCollections.forEach(subCollection => {
-                    getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
-                        count++;
-                        if (count === subCollections.length) {
-                            resolve(data);
-                        }
-                    }).catch(error => {
-                        console.log(error);
-                        reject(error);
-                    });
-                });
             }
         }).catch(error => {
             console.log(error);
