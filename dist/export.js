@@ -74,6 +74,14 @@ exports.backup = (collectionName, subCollections = []) => {
                         continue;
                     // your code
                     console.log(prop + " = " + obj[prop]);
+                    db.doc(`agreement/${prop}`).getCollections().then((sdd) => __awaiter(this, void 0, void 0, function* () {
+                        let temp = [];
+                        for (const sd of sdd) {
+                            temp.push(sd.id);
+                            console.log(`Found subcollection with id: ${sd.id}`);
+                        }
+                        console.log('temp ', temp);
+                    }));
                 }
             }
             if (typeof subCollections === 'string')
