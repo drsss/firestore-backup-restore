@@ -74,7 +74,7 @@ exports.backup = (collectionName, subCollections = []) => {
                         continue;
                     // your code
                     // console.log(prop + " = " + obj[prop]);
-                    db.doc(`agreement/${prop}`).getCollections().then((sdd) => __awaiter(this, void 0, void 0, function* () {
+                    db.doc(`agreement/${prop}`).getCollections().then(sdd => {
                         let temp = [];
                         for (const sd of sdd) {
                             temp.push(sd.id);
@@ -88,20 +88,34 @@ exports.backup = (collectionName, subCollections = []) => {
                         }
                         else {
                             let count = 0;
-                            temp.forEach(subCollection => {
-                                console.log(' temp aray ', subCollection);
-                                getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
-                                    count++;
-                                    if (count === temp.length) {
-                                        resolve(data);
-                                    }
-                                }).catch(error => {
-                                    console.log(error);
-                                    reject(error);
+                            // fetch in parallel
+                            let promises = [];
+                            // paths.forEach((segment) => {
+                            //     let result = backup(segment);
+                            //     promises.push(result);
+                            // });
+                            // assemble the pieces into one object
+                            new Promise((resolve, reject) => {
+                                temp.forEach(subCollection => {
+                                    console.log(' temp aray ', subCollection);
+                                    getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
+                                        count++;
+                                        if (count === temp.length) {
+                                            resolve(data);
+                                            promises.push(data);
+                                        }
+                                    }).catch(error => {
+                                        console.log(error);
+                                        reject(error);
+                                    });
+                                });
+                                Promise.all(promises).then((value) => {
+                                    let all = Object.assign({}, ...value);
+                                    resolve(all);
                                 });
                             });
                         }
-                    }));
+                    });
                 }
             }
         }).catch(error => {

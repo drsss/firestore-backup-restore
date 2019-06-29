@@ -39,7 +39,7 @@ export const getAllCollections = (collectionNameArray): Promise<any> => {
  * @returns {Promise<any>} 
  */
 export const backup = (collectionName: string, subCollections = []): Promise<any> => {
-    console.log('Geting data from: ', collectionName);
+    // console.log('Geting data from: ', collectionName);
     return new Promise((resolve, reject) => {
         const db = admin.firestore();
         let data = {};
@@ -71,9 +71,18 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
             
                     // your code
                    // console.log(prop + " = " + obj[prop]);
-                    db.doc(`agreement/${prop}`).getCollections().then(async sdd => {
+                    db.doc(`agreement/${prop}`).getCollections().then(sdd => {
                         let temp = [];
                         for (const sd of sdd) {
+
+
+
+
+
+
+
+
+                            
                            temp.push(sd.id);
                            //console.log(`Found subcollection with id: ${sd.id}`);
                         }
@@ -83,18 +92,36 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                             resolve(dt);
                         } else {
                             let count = 0;
-                            temp.forEach(subCollection => {
-                                console.log(' temp aray ', subCollection);
-                                getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
-                                    count++;
-                                    if (count === temp.length) {
-                                        resolve(data)
-                                    }
-                                }).catch(error => {
-                                    console.log(error);
-                                    reject(error);
+                            // fetch in parallel
+
+                            let promises = [];
+                            // paths.forEach((segment) => {
+                            //     let result = backup(segment);
+                            //     promises.push(result);
+                            // });
+                            // assemble the pieces into one object
+                            
+                           new Promise((resolve, reject) => {
+                                temp.forEach(subCollection => {
+                                   // console.log(' temp aray ', subCollection);
+    
+                                    getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
+                                        count++;
+                                        if (count === temp.length) {
+                                            resolve(data)
+                                            promises.push(data);
+                                        }
+                                    }).catch(error => {
+                                        console.log(error);
+                                        reject(error);
+                                    })
                                 })
-                            })
+                                Promise.all(promises).then((value) => {
+                                    let all = Object.assign({}, ...value);                       
+                                    resolve(all);
+                                });
+                            });
+                        
                         }
                     })
                 }
@@ -118,7 +145,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
  * @param {any} subCollection 
  */
 const getSubCollection = async (db, data, dt, collectionName, subCollection) => {
-    console.log('getsubcollection')
+   // console.log('getsubcollection')
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};
