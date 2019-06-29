@@ -45,7 +45,7 @@ exports.getAllCollections = (collectionNameArray) => {
  * @returns {Promise<any>}
  */
 exports.backup = (collectionName, subCollections = []) => {
-    console.log('Geting data from: ', collectionName);
+    // console.log('Geting data from: ', collectionName);
     return new Promise((resolve, reject) => {
         const db = admin.firestore();
         let data = {};
@@ -62,7 +62,7 @@ exports.backup = (collectionName, subCollections = []) => {
             console.log(error);
         });
         results.then((dt) => {
-            console.log('dt ', dt);
+            // console.log('dt ', dt);
             for (var key in dt) {
                 // skip loop if the property is from prototype
                 if (!dt.hasOwnProperty(key))
@@ -97,7 +97,7 @@ exports.backup = (collectionName, subCollections = []) => {
                             // assemble the pieces into one object
                             new Promise((resolve, reject) => {
                                 temp.forEach(subCollection => {
-                                    console.log(' temp aray ', subCollection);
+                                    // console.log(' temp aray ', subCollection);
                                     getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
                                         if (count === temp.length) {
@@ -134,7 +134,7 @@ exports.backup = (collectionName, subCollections = []) => {
  * @param {any} subCollection
  */
 const getSubCollection = (db, data, dt, collectionName, subCollection) => __awaiter(this, void 0, void 0, function* () {
-    console.log('getsubcollection');
+    // console.log('getsubcollection')
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};
