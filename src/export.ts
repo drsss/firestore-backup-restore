@@ -74,16 +74,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                     db.doc(`agreement/${prop}`).getCollections().then(sdd => {
                         let temp = [];
                         for (const sd of sdd) {
-
-
-
-
-
-
-
-
-                            
-                           temp.push(sd.id);
+                            temp.push(sd.id);
                            //console.log(`Found subcollection with id: ${sd.id}`);
                         }
                         //console.log('temp ', temp);
@@ -93,19 +84,12 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                         } else {
                             let count = 0;
                             // fetch in parallel
-
                             let promises = [];
-                            // paths.forEach((segment) => {
-                            //     let result = backup(segment);
-                            //     promises.push(result);
-                            // });
-                            // assemble the pieces into one object
-                            
-                           new Promise((resolve, reject) => {
-                                temp.forEach(subCollection => {
+                            new Promise((resolve, reject) => {
+                                temp.forEach(async subCollection => {
                                    // console.log(' temp aray ', subCollection);
     
-                                    getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
+                                    await getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
                                         if (count === temp.length) {
                                             resolve(data)

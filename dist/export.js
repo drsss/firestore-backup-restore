@@ -90,15 +90,10 @@ exports.backup = (collectionName, subCollections = []) => {
                             let count = 0;
                             // fetch in parallel
                             let promises = [];
-                            // paths.forEach((segment) => {
-                            //     let result = backup(segment);
-                            //     promises.push(result);
-                            // });
-                            // assemble the pieces into one object
                             new Promise((resolve, reject) => {
-                                temp.forEach(subCollection => {
+                                temp.forEach((subCollection) => __awaiter(this, void 0, void 0, function* () {
                                     // console.log(' temp aray ', subCollection);
-                                    getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
+                                    yield getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
                                         if (count === temp.length) {
                                             resolve(data);
@@ -108,7 +103,7 @@ exports.backup = (collectionName, subCollections = []) => {
                                         console.log(error);
                                         reject(error);
                                     });
-                                });
+                                }));
                                 Promise.all(promises).then((value) => {
                                     let all = Object.assign({}, ...value);
                                     resolve(all);
