@@ -91,7 +91,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
     
                                     await getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
-                                        if (count === temp.length) {
+                                        if (count === 5) {
                                             resolve(data)
                                             promises.push(data);
                                         }
