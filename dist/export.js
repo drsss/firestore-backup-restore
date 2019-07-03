@@ -74,7 +74,7 @@ exports.backup = (collectionName, subCollections = []) => {
                         continue;
                     // your code
                     // console.log(prop + " = " + obj[prop]);
-                    db.doc(`agreement/${prop}`).getCollections().then(sdd => {
+                    db.doc(`agreement/${prop}`).getCollections().then((sdd) => __awaiter(this, void 0, void 0, function* () {
                         let temp = [];
                         for (const sd of sdd) {
                             temp.push(sd.id);
@@ -90,7 +90,7 @@ exports.backup = (collectionName, subCollections = []) => {
                             let count = 0;
                             // fetch in parallel
                             let promises = [];
-                            new Promise((resolve, reject) => {
+                            yield new Promise((resolve, reject) => {
                                 temp.forEach((subCollection) => __awaiter(this, void 0, void 0, function* () {
                                     // console.log(' temp aray ', subCollection);
                                     yield getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
@@ -110,7 +110,7 @@ exports.backup = (collectionName, subCollections = []) => {
                                 });
                             });
                         }
-                    });
+                    }));
                 }
             }
         }).catch(error => {

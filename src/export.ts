@@ -71,7 +71,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
             
                     // your code
                    // console.log(prop + " = " + obj[prop]);
-                    db.doc(`agreement/${prop}`).getCollections().then(sdd => {
+                    db.doc(`agreement/${prop}`).getCollections().then(async sdd => {
                         let temp = [];
                         for (const sd of sdd) {
                             temp.push(sd.id);
@@ -85,7 +85,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                             let count = 0;
                             // fetch in parallel
                             let promises = [];
-                            new Promise((resolve, reject) => {
+                            await new Promise((resolve, reject) => {
                                 temp.forEach(async subCollection => {
                                    // console.log(' temp aray ', subCollection);
     
