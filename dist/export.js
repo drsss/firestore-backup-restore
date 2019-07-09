@@ -93,10 +93,10 @@ exports.backup = (collectionName, subCollections = []) => {
                             yield new Promise((resolve, reject) => {
                                 temp.forEach((subCollection) => __awaiter(this, void 0, void 0, function* () {
                                     // console.log(' temp aray ', subCollection);
-                                    console.log('before get subcollection');
+                                    //  console.log('before get subcollection');
                                     yield getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
-                                        console.log('after get subcollection');
+                                        // console.log('after get subcollection');
                                         if (count === 5) {
                                             resolve(data);
                                             promises.push(data);
@@ -131,7 +131,7 @@ exports.backup = (collectionName, subCollections = []) => {
  * @param {any} subCollection
  */
 const getSubCollection = (db, data, dt, collectionName, subCollection) => __awaiter(this, void 0, void 0, function* () {
-    console.log('getsubcollection');
+    // console.log('getsubcollection')
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};
@@ -151,7 +151,7 @@ const getSubCollection = (db, data, dt, collectionName, subCollection) => __awai
  * @returns
  */
 const addSubCollection = (db, key, subData, collectionName, subCollection) => {
-    console.log('addSubCollection');
+    // console.log('addSubCollection');
     return new Promise((resolve, reject) => {
         db.collection(collectionName).doc(key).collection(subCollection).get()
             .then(snapshot => {

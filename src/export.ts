@@ -88,10 +88,10 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
                             await new Promise((resolve, reject) => {
                                 temp.forEach(async subCollection => {
                                    // console.log(' temp aray ', subCollection);
-                                    console.log('before get subcollection');
+                                  //  console.log('before get subcollection');
                                     await getSubCollection(db, data, dt, collectionName, subCollection).then(() => {
                                         count++;
-                                        console.log('after get subcollection');
+                                       // console.log('after get subcollection');
                                         if (count === 5) {
                                             
                                             resolve(data)
@@ -131,7 +131,7 @@ export const backup = (collectionName: string, subCollections = []): Promise<any
  * @param {any} subCollection 
  */
 const getSubCollection = async (db, data, dt, collectionName, subCollection) => {
-    console.log('getsubcollection')
+    // console.log('getsubcollection')
     for (let [key, value] of Object.entries([dt[collectionName]][0])) {
         if (data[collectionName][key]['subCollections'] == null) {
             data[collectionName][key]['subCollections'] = {};
@@ -152,7 +152,7 @@ const getSubCollection = async (db, data, dt, collectionName, subCollection) => 
  * @returns 
  */
 const addSubCollection = (db, key, subData, collectionName, subCollection) => {
-    console.log('addSubCollection');
+    // console.log('addSubCollection');
     return new Promise((resolve, reject) => {
         db.collection(collectionName).doc(key).collection(subCollection).get()
             .then(snapshot => {
